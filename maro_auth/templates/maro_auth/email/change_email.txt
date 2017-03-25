@@ -1,0 +1,10 @@
+Alguém pediu uma alteração de email para esse endereço
+Se você não pediu essa ateração, simplesmente ignore esse email.
+
+Olá, {{ username }}!
+Para atualizar seu email principal, use o link abaixo
+
+{{ url }}
+
+Love,
+ALES Bot

@@ -1,0 +1,16 @@
+<h1>Entrar na sua conta</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {% for field in form.visible_fields %}
+    <label>{{ field.label }}<span>{{ field.errors.as_text }}</span></label>
+    {{ field }}
+    {% endfor %}
+    {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+    {% endfor %}
+
+    <button type="submit">Entrar</button>
+</form>
+
+<a href="{% url 'maro_auth:password_reset' %}">Esqueceu sua senha?</a>
