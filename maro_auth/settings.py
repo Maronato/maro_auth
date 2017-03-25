@@ -13,3 +13,6 @@ PROFILE_URL_NAME = get('PROFILE_URL_NAME', 'profile')
 
 # site url
 SITE_URL = get('SITE_URL', 'http://localhost:8000')
+
+# whether or not to limit users to only unicamp students
+LIMIT_USERS = get('LIMIT_USERS', True)

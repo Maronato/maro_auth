@@ -2,13 +2,14 @@ from django import forms
 from .models import EmailManager
 from django.contrib.auth.models import User
 from django.forms import ModelForm
+from .settings import *
 import re
 
 
 class SignupForm(ModelForm):
 
     first_name = forms.CharField(label='Primeiro nome', max_length=30, required=True)
-    email = forms.EmailField(label='Seu email da DAC', required=True)
+    email = forms.EmailField(label='Email', required=True)
     last_name = forms.CharField(label='Sobrenome', max_length=30, required=True)
 
     class Meta:
@@ -23,11 +24,13 @@ class SignupForm(ModelForm):
         # process email
         email = self.cleaned_data['email']
 
-        # check email format
-        if not re.match(r'^[a-z]\d+@dac.unicamp.br$', email, re.I):
-            raise forms.ValidationError(
-                "Email não é da DAC!"
-            )
+        # if limiting users
+        if LIMIT_USERS:
+            # check email format
+            if not re.match(r'^[a-z]\d+@dac.unicamp.br$', email, re.I):
+                raise forms.ValidationError(
+                    "Email não é da DAC!"
+                )
         return email.lower()
 
     def save(self, commit=True):
