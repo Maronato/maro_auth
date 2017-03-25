@@ -57,12 +57,19 @@ def confirm_email(request, key):
         form = SetPasswordForm(manager.user, request.POST)
         # If the password is valid
         if form.is_valid():
-            form.save()
-            # Login the new user and validate their accounts
-            login(request, manager.user)
-            EmailManager.confirm(key)
-            messages.add_message(request, messages.SUCCESS, 'Sua conta foi ativada com sucesso!')
-            return redirect(profile)
+
+            # try to confirm the key
+            user = EmailManager.confirm(key)
+            # if the key was confirmed
+            if user:
+                form.save()
+                # Login the new user and validate their accounts
+                login(request, user)
+                messages.add_message(request, messages.SUCCESS, 'Sua conta foi ativada com sucesso!')
+                return redirect(profile)
+            # if the key was not confirmed
+            else:
+                messages.add_message(request, messages.SUCCESS, 'Não foi possível confirmar seu email!')
 
     # If the user just clicked the activation link, generate a password form
     else:
