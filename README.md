@@ -3,7 +3,7 @@ Quick start
 1. Add `git+https://github.com/Maronato/maro_auth.git` to your `requirements.txt`
 
 2. Add `maro_auth` to the _end_ of your INSTALLED_APPS setting like this::
-    ```
+    ```Python
     INSTALLED_APPS = [
         ...
         'maro_auth',
@@ -18,11 +18,32 @@ Quick start
 
 5. Add the following settings to your `settings.py`:
 
-    `INDEX_URL_NAME = 'index'` _name_ of your project's index url
+    ```Python
+    INDEX_URL_NAME = 'index'  # name of your project's index url
 
-    `PROFILE_URL_NAME = 'profile'` _name_ of your project's profile url
+    PROFILE_URL_NAME = 'profile'  # name of your project's profile url
 
-    `SITE_URL = 'http://localhost:8000'` your site's `url`, without the `/` at the end
+    SITE_URL = 'http://localhost:8000'  # your site's url, without the '/' at the end
+
+    PROJECT_NAME = 'Projeto Genérico'  # your project's name
+
+    LIMIT_USERS = True  # Whether or not to limit your users to DAC users only
+    ```
+
+    And also don't forget to setup your email sending protocols:
+    ```Python
+    DEFAULT_FROM_EMAIL = 'example@example.com'
+    EMAIL_HOST_USER = 'example@example.com'
+    EMAIL_HOST_PASSWORD = 'super_s3cret'
+    EMAIL_USE_TLS = True
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_PORT = 587
+    SERVER_EMAIL = 'example@example.com'
+    ```
+
+    And, if you want to receive error logs:
+
+    `ADMINS = [('Admin', 'admin@example.com'), ]`
 
 Customizing the templates
 -------------------------
