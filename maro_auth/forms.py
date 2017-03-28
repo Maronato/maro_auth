@@ -81,6 +81,10 @@ class SignupForm(ModelForm):
         # if it does not, assume it is the user itself
         else:
             user = profile
+            user.username = self.cleaned_data['email']
+            user.is_active = False
+            user.set_unusable_password()
+
             if commit is True:
                 # save user
                 user.save()
