@@ -61,7 +61,7 @@ def confirm_email(request, key):
             # try to confirm the key
             user = EmailManager.confirm(key)
             # if the key was confirmed
-            if user:
+            if user.is_active:
                 form.save()
                 # Login the new user and validate their accounts
                 login(request, user)

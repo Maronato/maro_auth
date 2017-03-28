@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 # Create your tests here.
 
 
-class SignupTest(unittest.TestCase):
+class DataTest(unittest.TestCase):
 
     def setUp(self):
         self.client = Client()
@@ -30,6 +30,12 @@ class SignupTest(unittest.TestCase):
         # Check that the response is not 302, redirected
         self.assertNotEqual(response.status_code, 302)
 
+
+class SignupTest(unittest.TestCase):
+
+    def setUp(self):
+        self.client = Client()
+
     def test_signup_and_confirm_email(self):
 
         # sign someone up
@@ -48,8 +54,8 @@ class SignupTest(unittest.TestCase):
 
         self.assertEqual(response.status_code, 302)
 
-        user = User.objects.get(first_name='john')
-        self.assertTrue(user.is_active)
+        user = User.objects.get(email='a123456@dac.unicamp.br')
+        self.assertTrue(user.emailmanager.is_active)
 
 
 class ChangeEmailTest(unittest.TestCase):
@@ -87,4 +93,3 @@ class ChangeEmailTest(unittest.TestCase):
         self.assertEqual('newemail@gm2.com', user.username)
         self.assertEqual('newemail@gm2.com', user.emailmanager.active_email)
         self.assertEqual('newemail@gm2.com', user.email)
-

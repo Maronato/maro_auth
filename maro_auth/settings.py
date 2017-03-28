@@ -2,7 +2,7 @@ from django.conf import settings
 
 
 def get(key, default):
-    getattr(settings, key, default)
+    return getattr(settings, key, default)
 
 
 # index url name
@@ -19,6 +19,18 @@ PROJECT_NAME = get('PROJECT_NAME', 'Projeto Genérico')
 
 # whether or not to limit users to only unicamp students
 LIMIT_USERS = get('LIMIT_USERS', True)
+
+# Profile's app name
+PROFILE_APP_NAME = get('PROFILE_APP_NAME', 'auth')
+
+# Profile's model name
+PROFILE_MODEL_NAME = get('PROFILE_MODEL_NAME', 'User')
+
+# Fields to Include
+FIELDS = get('FIELDS', ('first_name', 'email', 'last_name'))
+
+# Fields to Exclude
+EXCLUDE = get('EXCLUDE', ('username', 'password1', 'password2'))
 
 # Email sending settings
 DEFAULT_FROM_EMAIL = get('DEFAULT_FROM_EMAIL', 'example@example.com')

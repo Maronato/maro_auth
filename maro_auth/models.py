@@ -92,11 +92,9 @@ class EmailManager(models.Model):
             if manager.user.email == manager.user.username:
                 manager.user.username = manager.other_email
             manager.user.email = manager.other_email
-            manager.user.is_active = True
-            manager.user.save()
-        else:
-            manager.user.is_active = True
-            manager.user.save()
+
+        manager.user.is_active = True
+        manager.user.save()
 
         # Activate email
         manager.active = True
