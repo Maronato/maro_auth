@@ -16,18 +16,26 @@ Quick start
 
 4. Run `python manage.py migrate` to create the auth models.
 
-5. Add the following settings to your `settings.py`:
+5. Add the following settings to your `settings.py` to configure the app:
 
     ```Python
-    INDEX_URL_NAME = 'index'  # name of your project's index url
+    INDEX_URL_NAME = 'index'  # name of your project's index url. Used on redirects
 
-    PROFILE_URL_NAME = 'profile'  # name of your project's profile url
+    PROFILE_URL_NAME = 'profile'  # name of your project's profile url. Used on redirects
 
-    SITE_URL = 'http://localhost:8000'  # your site's url, without the '/' at the end
+    SITE_URL = 'http://localhost:8000'  # your site's url, without the '/' at the end. Used on emails
 
-    PROJECT_NAME = 'Projeto Genérico'  # your project's name
+    PROJECT_NAME = 'Projeto Genérico'  # your project's name. Used on emails
 
-    LIMIT_USERS = True  # Whether or not to limit your users to DAC users only
+    LIMIT_USERS = True  # Whether or not to limit your users to DAC users only. Used during signup evaluation
+
+    PROFILE_APP_NAME = 'auth'  # (optional) the name of the app containing your Profile model
+
+    PROFILE_MODEL_NAME = 'User'  # (optional) the name of the Profile model you'll want to use and associate with your Users
+
+    FIELDS = ('first_name', 'email', 'last_name')  # (optional) the Profile fields that you want to include in your signup form
+
+    EXCLUDE = ('username', 'password1', 'password2')  # (optional) the Profile fields that you want to exclude from your signup form
     ```
 
     And also don't forget to setup your email sending protocols:
