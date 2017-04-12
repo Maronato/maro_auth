@@ -28,6 +28,12 @@ class SignupForm(ModelForm):
         # process email
         email = self.cleaned_data['email']
 
+        # Check if user exists
+        if User.objects.filter(username=email).exists():
+            raise forms.ValidationError(
+                "Usuário já cadastrado!"
+            )
+
         # if limiting users
         if settings.LIMIT_USERS:
             # check email format
