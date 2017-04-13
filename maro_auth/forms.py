@@ -26,7 +26,7 @@ class SignupForm(ModelForm):
         # allowed (e.g. only allow DAC emails)
 
         # process email
-        email = self.cleaned_data['email']
+        email = self.cleaned_data['email'].lower()
 
         # Check if user exists
         if User.objects.filter(username=email).exists():
@@ -41,7 +41,7 @@ class SignupForm(ModelForm):
                 raise forms.ValidationError(
                     "Email não é da DAC!"
                 )
-        return email.lower()
+        return email
 
     def save(self, commit=True):
 
@@ -65,8 +65,8 @@ class SignupForm(ModelForm):
 
             # Create the user obj
             user = User(
-                email=self.cleaned_data['email'],
-                username=self.cleaned_data['email'],
+                email=self.cleaned_data['email'].lower(),
+                username=self.cleaned_data['email'].lower(),
                 first_name=self.cleaned_data['first_name'],
                 last_name=self.cleaned_data['last_name']
             )
@@ -87,7 +87,7 @@ class SignupForm(ModelForm):
         # if it does not, assume it is the user itself
         else:
             user = profile
-            user.username = self.cleaned_data['email']
+            user.username = self.cleaned_data['email'].lower()
             user.is_active = False
             user.set_unusable_password()
 

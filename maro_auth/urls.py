@@ -17,7 +17,7 @@ urlpatterns = [
     url(r'^signup/', views.signup, name='signup'),
 
     # login
-    url(r'^login/', auth_views.login, {'template_name': 'maro_auth/login.html'}, name='login'),
+    url(r'^login/', views.login_user, name='login'),
 
     # logout
     url(r'^logout/$', auth_views.logout, {'next_page': reverse_lazy(index)}, name='logout'),

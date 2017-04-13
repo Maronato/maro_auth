@@ -94,3 +94,29 @@ def change_email(request, key):
         messages.add_message(request, messages.SUCCESS, 'Pronto! Email alterado!')
 
     return redirect(index)
+
+
+def login_user(request):
+    # Custom login method
+    context = {}
+    if request.method == 'POST':
+        # Recover username and password
+        username = request.POST['username'].lower()
+        password = request.POST['password']
+        # Authenticates them
+        user = authenticate(username=username, password=password)
+        # If the user exists
+        if user is not None:
+            # and has confirmed their emails
+            if user.is_active:
+                # Login them and redirect to the dashboard
+                login(request, user)
+                return redirect(PROFILE_URL_NAME)
+            # If the user has not verified their emails, tell them that
+            messages.add_message(request, messages.SUCCESS, 'Seu usuário está inativo. Procure pelo email de confirmação em sua caixa de entrada.')
+        # If the user does not exist, tell them that
+        else:
+            messages.add_message(request, messages.SUCCESS, 'Usuário ou senha incorretos.')
+        # Reload the username and pass it as the context so that ppl dont have to retype it
+        context = {'username': username}
+    return render(request, 'maro_auth/login.html', context)
