@@ -1,13 +1,18 @@
 from django import forms
 from .models import EmailManager
 from django.contrib.auth.models import User
-from django.forms import ModelForm
+from django.forms import ModelForm, Form
 from maro_auth import settings
 from django.apps import apps
 import re
 
 app = apps.get_app_config(settings.PROFILE_APP_NAME)
 PROFILE_CLASS = app.get_model(settings.PROFILE_MODEL_NAME)
+
+
+class LoginForm(Form):
+    username = forms.EmailField(label='Email', required=True)
+    password = forms.CharField(label='Senha', required=True, widget=forms.PasswordInput)
 
 
 class SignupForm(ModelForm):
