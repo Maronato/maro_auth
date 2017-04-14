@@ -1,6 +1,6 @@
 Quick start
 -----------
-1. Add `git+https://github.com/Maronato/maro_auth.git` to your `requirements.txt`
+1. Add `maro-auth` to your `requirements.txt`
 
 2. Add `maro_auth` to the _end_ of your INSTALLED_APPS setting like this::
     ```Python
