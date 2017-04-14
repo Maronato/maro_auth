@@ -1,8 +1,8 @@
 from .models import EmailManager
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import SetPasswordForm
-from django.contrib.auth import login
+from django.contrib.auth.forms import SetPasswordForm, LoginForm
+from django.contrib.auth import login, authenticate
 from .settings import *
 from .forms import SignupForm
 # Create your views here.
@@ -62,6 +62,8 @@ def confirm_email(request, key):
             user = EmailManager.confirm(key)
             # if the key was confirmed
             if user.is_active:
+                form = SetPasswordForm(user, request.POST)
+                form.is_valid()
                 form.save()
                 # Login the new user and validate their accounts
                 login(request, user)
@@ -98,25 +100,29 @@ def change_email(request, key):
 
 def login_user(request):
     # Custom login method
-    context = {}
     if request.method == 'POST':
-        # Recover username and password
-        username = request.POST['username'].lower()
-        password = request.POST['password']
-        # Authenticates them
-        user = authenticate(username=username, password=password)
-        # If the user exists
-        if user is not None:
-            # and has confirmed their emails
-            if user.is_active:
-                # Login them and redirect to the dashboard
-                login(request, user)
-                return redirect(PROFILE_URL_NAME)
-            # If the user has not verified their emails, tell them that
-            messages.add_message(request, messages.SUCCESS, 'Seu usuário está inativo. Procure pelo email de confirmação em sua caixa de entrada.')
-        # If the user does not exist, tell them that
-        else:
-            messages.add_message(request, messages.SUCCESS, 'Usuário ou senha incorretos.')
-        # Reload the username and pass it as the context so that ppl dont have to retype it
-        context = {'username': username}
-    return render(request, 'maro_auth/login.html', context)
+
+        form = LoginForm(request.POST)
+
+        if form.is_valid():
+            # Recover username and password
+            username = form.cleaned_data['username'].lower()
+            password = form.cleaned_data['password']
+            # Authenticates them
+            user = authenticate(username=username, password=password)
+            # If the user exists
+            if user is not None:
+                # and has confirmed their emails
+                if user.is_active:
+                    # Login them and redirect to the dashboard
+                    login(request, user)
+                    return redirect(PROFILE_URL_NAME)
+                # If the user has not verified their emails, tell them that
+                form.add_error(None, 'Seu usuário está inativo. Procure pelo email de confirmação em sua caixa de entrada.')
+            # If the user does not exist, tell them that
+            else:
+                form.add_error(None, 'Usuário ou senha incorretos.')
+    else:
+        form = LoginForm()
+
+    return render(request, 'maro_auth/login.html', {'form': form})
