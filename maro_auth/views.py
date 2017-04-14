@@ -1,10 +1,10 @@
 from .models import EmailManager
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import SetPasswordForm, LoginForm
+from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth import login, authenticate
 from .settings import *
-from .forms import SignupForm
+from .forms import SignupForm, LoginForm
 # Create your views here.
 
 # index url
