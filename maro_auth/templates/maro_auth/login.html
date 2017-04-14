@@ -4,8 +4,13 @@
 
 <form method="post">
     {% csrf_token %}
+
+    {% for err in form.non_field_errors %}
+      {{ err }}
+    {% endfor %}
+
     {% for field in form.visible_fields %}
-    <label>{{ field.label }}<span>{{ field.errors.as_text }}</span></label>
+    <label>{{ field.label }}</label>
     {{ field }}
     {% endfor %}
     {% for hidden in form.hidden_fields %}
