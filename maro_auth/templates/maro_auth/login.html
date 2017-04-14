@@ -1,3 +1,5 @@
+{% extends "maro_auth/base.html" %}
+{% block content %}
 <h1>Entrar na sua conta</h1>
 
 <form method="post">
@@ -14,3 +16,5 @@
 </form>
 
 <a href="{% url 'maro_auth:password_reset' %}">Esqueceu sua senha?</a>
+
+{% endblock %}
